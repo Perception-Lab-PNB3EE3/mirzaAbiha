@@ -1,8 +1,10 @@
 ---
 title: "dataVisualisation_analyses"
-output: html_notebook
+output:
+  html_document:
+    df_print: paged
 ---
-# Question 2: Loading in the data
+# Step 1: Loading in the data
 
 ```{r}
 #first we have to load the data in, the head function lets us see the general format of the table and the summary function gives summary stats for all the data
@@ -12,7 +14,7 @@ print(summary(data))
 #
 ```
 
-# Question 3: Finding summary statistics
+# Step 2: Finding summary statistics
 ```{r}
 
 #now we split up the data into each of the conditions so we can work with it 
@@ -57,17 +59,22 @@ median(condition_4$y)
 
 ```
 
-# Question 4: Visualizing the data
+# Step 3: Visualizing the data
 ```{r}
 #plot for condition 1
 plot(condition_1$x, condition_1$y, col = "red", xlab = "x values", ylab = "y values", main = "Dinosaur") #we can change the color too and the x and y axes
-
+```
+```{r}
 #plot for condition 2
 plot(condition_2$x, condition_2$y, col = "blue", xlab = "x values", ylab = "y values", main = "The eye") 
+```
 
+```{r}
 #plot for condition 3
 plot(condition_3$x, condition_3$y, col = "green", xlab = "x values", ylab = "y values", main = "Lines!!!")
+```
 
+```{r}
 #plot for condition 4
 plot(condition_4$x, condition_4$y, col = "magenta", xlab = "x values", ylab = "y values", main = "STAR")
 ```
