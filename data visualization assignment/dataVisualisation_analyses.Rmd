@@ -1,0 +1,87 @@
+---
+title: "dataVisualisation_analyses"
+output: html_notebook
+---
+# Question 2: Loading in the data
+
+```{r}
+#first we have to load the data in, the head function lets us see the general format of the table and the summary function gives summary stats for all the data
+data <- read.csv("assignment_dataVis_dataset.csv")
+print(head(data))
+print(summary(data))
+#
+```
+
+# Question 3: Finding summary statistics
+```{r}
+
+#now we split up the data into each of the conditions so we can work with it 
+condition_1 = data.frame(data[1:142,])
+condition_2 = data.frame(data[143:284,])
+condition_3 = data.frame(data[285:426,])
+condition_4 = data.frame(data[427:568,])
+
+
+#summary stats for condition 1:
+mean(condition_1$x)
+mean(condition_1$y)
+sd(condition_1$x)
+sd(condition_1$y)
+median(condition_1$x)
+median(condition_1$y)
+
+
+#summary stats for condition 2:
+mean(condition_2$x)
+mean(condition_2$y)
+sd(condition_2$x)
+sd(condition_2$y)
+median(condition_2$x)
+median(condition_2$y)
+
+#summary stats for condition 3:
+mean(condition_3$x)
+mean(condition_3$y)
+sd(condition_3$x)
+sd(condition_3$y)
+median(condition_3$x)
+median(condition_3$y)
+
+#summary stats for condition 4:
+mean(condition_4$x)
+mean(condition_4$y)
+sd(condition_4$x)
+sd(condition_4$y)
+median(condition_4$x)
+median(condition_4$y)
+
+```
+
+# Question 4: Visualizing the data
+```{r}
+#plot for condition 1
+plot(condition_1$x, condition_1$y, col = "red", xlab = "x values", ylab = "y values", main = "Dinosaur") #we can change the color too and the x and y axes
+
+#plot for condition 2
+plot(condition_2$x, condition_2$y, col = "blue", xlab = "x values", ylab = "y values", main = "The eye") 
+
+#plot for condition 3
+plot(condition_3$x, condition_3$y, col = "green", xlab = "x values", ylab = "y values", main = "Lines!!!")
+
+#plot for condition 4
+plot(condition_4$x, condition_4$y, col = "magenta", xlab = "x values", ylab = "y values", main = "STAR")
+```
+
+Questions:
+1. What can be concluded from the dataset?
+For all of the different datasets the mean and the standard deviations are the exact same. However, when we visualize the dataset we see that each of the four groups are different. This just goes to show that we cannot simply display summary stats when presenting research because without visualizing the data we won't have any context as to what those summary stats mean. 
+
+2. What did you find most challenging about this assignment?
+Everything was easy but I forgot how to create a data frame properly and separate the different conditions but once I found that out it was fine. Also figuring out how to use the notebook was a bit confusing at first but it did not take long to understand. 
+
+3. What did you learn in completing this assignment? What are you still curious about?
+The most valuable thing I learnt was how to use R notebook. It is truly a good resource to use and makes everything easier. This way you can have your code, your text and your images all in one file. I want to keep learning about all the different tips and tricks on notebook. Also more about the different ways on how to analyze data 
+
+4. Why is it important to visualize data?
+It is important so that you can communicate effectively to your audience what your different trends and patterns are. Without visualizing the data you fail to be transparent with your data. You are also withholding certain pieces of information from the readers that may help them better understand your research. 
+
