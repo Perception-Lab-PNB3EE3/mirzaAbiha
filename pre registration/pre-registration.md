@@ -60,7 +60,7 @@ Abiha Mirza
   This study aims to address the gap by examining how individuals raised in multicultural societies, with frequent intergroup interactions, perceive microaggressions compared to those from homogeneous societies, where intergroup contact is limited. Specifically, we will investigate whether individuals from multicultural backgrounds are more or less likely to recognize and rate microaggressions as severe. Several studies have understood that microaggressions have a subjective nature and may be perceived differently according to certain individual factors. Prior research has found that factors such as political beliefs, educational background, and personal experience with discrimination influence how individuals perceive them (@williams2016, @Boysen2012, @jenkins2023, @@offerman2013) . For example, @williams2016 found that people of color who had personally experienced racial microaggressions were more likely to perceive racially themed memes as offensive than White individuals with no similar experiences. However, both groups rated racial memes as more offensive than non-racial ones. @Boysen2012 found that teachers who taught diversity-focused courses were more likely to perceive racial microaggressions as harmful and intervene compared to teachers of other subjects. Similarly, @jenkins2023 found that individuals with left-leaning political orientations tended to perceive microaggressions as more severe. Additionally, people of color who strongly identified with their racial group, rated microaggressions as more harmful (@jenkins2023). Finally, a study run by @offerman2013 looked at discrimination in the workplace. They found that a supervisor’s reputation in the workplace can influence an employee's perception on the microaggression severity. If the supervisor had a reputation for equity and fairness, microaggressions were perceived less severe. These findings suggest that an individual’s background and context of the situation can shape perceptions of microaggressions. This is important in healthcare settings as well as educational and workplace contexts as the perceptions of microaggressions can contribute to how a person of color is treated relative to others, and it may determine whether their concerns are heard and addressed. We will further explore the factors that contribute to this difference in microaggression severity perception to further break barriers and ensure fair treatment of all individuals. 
 
 ## 4. Hypotheses 
-If growing up in a homogenous vs. multicultural society affects the perception of the severity of a microaggression towards a marginalized group, then the mean for the severity rating of the microaggression will be higher for those who grew up in multicultural societies. 
+If growing up in a homogenous vs. multicultural society affects the perception of the severity of a microaggression towards a marginalized group, then the mean for the severity rating of the microaggression will be higher for those who grew up in multicultural societies. This is because they will be have been exposed to more interactions with a diverse group of people and be more aware of microaggressions. 
 
 # Design Plan 
 
@@ -90,7 +90,15 @@ In total there are two independent variables and 5 levels.
 
 Racial background has been omitted as a major factor to simplify the study design, but it will still be noted in the demographic survey and assessed for differences in the perception of microaggression severity. 
 
-Participants will read a series of vignettes, depicting microaggression. Most previous studies that have explored perceptions on microaggressive behaviors have used vignettes to present scenarios to the observers. 
+Participants will read a series of AI generated vignettes, depicting microaggression. Most previous studies that have explored perceptions on microaggressive behaviors have used vignettes to present scenarios to the observers. 
+The vignettes will be as follows: 
+  Maria, a Latina professional, shares with her coworker Ashley that she has struggled to get interviews at certain companies. "I feel like sometimes my last name makes employers hesitate," Maria says.
+
+  Ashley immediately shakes her head and laughs. "No way! Companies don’t care about that stuff anymore. It’s all about skills now."
+
+  Maria presses her lips together and replies, "I don’t know... I’ve noticed a pattern." Ashley shrugs, "I think you might be overthinking it. I’m sure it’s just bad luck."
+
+  Maria nods, but the conversation leaves her feeling dismissed.
 The participants will then have to rate the severity of each microaggression using a likert scale. Three scales will be used to measure this: 
 - The behavior depicted in the vignette was highly offensive: 1 = strongly disagree, 10 = strongly agree
 - The person meant to behave in a racially insensitive manner: 1= strongly disagree, 10 =  strongly agree
@@ -134,26 +142,26 @@ Recruitment advertisements will send those who are interested to a screening que
 Those who fit the criteria will be emailed the instructions and information to participate in the web-based experiment. 
 
 ## 13. Sample size 
-Our target sample size is a minimum of 30 participants with 15 participants for each level of the developmental environment. We will try and recruit up to 50 per condition, for a total of 100 participants. This is assuming that not all will complete the task and that a higher sample size will provide us with a greater chance of seeing a significant difference.
+Our target sample size is a minimum of 30 participants for each level of the developmental environment. We will try and recruit up to 50 per condition, for a total of 100 participants. This is assuming that not all will complete the task and that a higher sample size will provide us with a greater chance of seeing a significant difference.
 
 
 ## 14. Sample size rationale 
 We used the software program G\*Power to conduct a power analysis. Our goal was to obtain .95 power to detect a medium effect size of .09 using partial eta-squared at the standard .05 alpha error probability.The effect size estimate was obtained through the study run by @williams2016. They found a main effect for racial group' ratings of the offensiveness of memes. 
-However without any limitations involved we used the software program  G\*Power to conduct a power analysis. Our goal was to obtain .95 power to detect a medium effect size of .09 at the standard .05 alpha error rate. We obtained N= 30. Therefore in order to obtain a significant effect with 95% power we need at least 30 participants per group. However, more participants will be collected to account for individual differences, dropouts, and outliers. 
+However without any limitations involved we used the software program  G\*Power and we obtained N= 30. Therefore in order to obtain a significant effect with 95% power we need at least 30 participants per group. However, more participants will be collected to account for individual differences, dropouts, and outliers. 
 
 ## 15. Stopping rule 
 We will post 20 participant sign-up slots on the Monday of each week. If by the following Monday we have not reached the target recruitment size of 100 (50/group) we will open up another 20 slots. 
-
+As soon as one category fills up, for example we have enough participants for the homogenous group, then we will change the requirements for the recruitment to fulfill the remaining condition and recruit participants. 
 
 # Variables 
 
 > In this section you can describe all variables (both manipulated and measured variables) that will later be used in your confirmatory analysis plan. In your analysis plan, you will have the opportunity to describe how each variable will be used. If you have variables which you are measuring for exploratory analyses, you are not required to list them, though you are permitted to do so.
 
 ## 16. Manipulated variables 
-The primary manipulated variables are the developmental backgrounds in which participants were raised in. Either multicultural society or a homogenous society. The other manipulated variable will be the microaggression type. A vignette depicting a regular interaction with no intent of harm will be the control. The two other conditions will be a vignette depicting a microinsult and another depicting a microinvalidation. 
+The primary manipulated variable is the microaggression type. A vignette depicting a regular interaction with no intent of harm will be the control. The two other conditions will be a vignettes depicting a microinsult and another depicting a microinvalidation. The other variable will be the society in which the individual grows up in, either the multicultural or the homogenous society. 
 
 ## 17. Measured variables 
-The measured variables will be the perceived severity of microagressions. Three scales will be used to measure this: 
+The measured variable will be the perceived severity of microagressions. Three scales will be used to measure this: 
 - The behavior depicted in the vignette was highly offensive: 1 = strongly disagree, 10 = strongly agree
 - The person meant to behave in a racially insensitive manner: 1= strongly disagree, 10 =  strongly agree
 - I would step in and say something to stop the interaction: 1 = strongly disagree, 10 = strongly agree
