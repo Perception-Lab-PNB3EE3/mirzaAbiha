@@ -99,6 +99,7 @@ The vignettes will be as follows:
   Maria presses her lips together and replies, "I don’t know... I’ve noticed a pattern." Ashley shrugs, "I think you might be overthinking it. I’m sure it’s just bad luck."
 
   Maria nods, but the conversation leaves her feeling dismissed.
+  
 The participants will then have to rate the severity of each microaggression using a likert scale. Three scales will be used to measure this: 
 - The behavior depicted in the vignette was highly offensive: 1 = strongly disagree, 10 = strongly agree
 - The person meant to behave in a racially insensitive manner: 1= strongly disagree, 10 =  strongly agree

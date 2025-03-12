@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+    <script src="jspsych/jspsych.js"></script>
+    <script src="jspsych/plugin-html-keyboard-response.js"></script>
+    <script src="jspsych/plugin-html-button-response.js"></script>
+    <script src="jspsych/plugin-survey-likert.js"></script> 
+    <script src="jspsych/plugin-survey-multi-choice.js"></script>
+    <link href="jspsych/jspsych.css" rel="stylesheet" type="text/css" />
+  </head>
+    <body></body>
+    <script>
+/*in the head we have coded which plugins will be used for the experiment in javascript*/
+
+var jsPsych = initJsPsych({
+          on_finish: function() {
+                jsPsych.data.get().localSave('csv','mydata.csv');
+              }
+            });
+            
+/*Here we have initialized or started up jspsych and created a csv file to show all the data that will be collected in the experiment*/
+
+/* create timeline */
+var timeline = [];
+
+/* define welcome message trial using the html keyboard response plugin*/
+var welcome = {
+  type: jsPsychHtmlKeyboardResponse,
+  stimulus: `<p>Welcome to the experiment. Press any key to begin.</p>`
+};
+
+timeline.push(welcome); /*We always have to make sure we push each trial to the timeline so that everything runs in order*/
+
+/*Now we create the consent page, as this experiment did not get ethical approval yet, this is more of a placeholder page for when it does*/
+var consent = {
+  type: jsPsychHtmlButtonResponse,
+  stimulus: '<p>By continuing, you agree to participate in this study. (Note that this study has not yet received ethical approval and is just an assignment for a class) </p>',
+  choices: ["continue"]
+};
+
+/*the stimulus is what the participants will see on the screen and the choices defines what the button will say and look like*/  
+
+timeline.push(consent); /*push the consent trial to the timeline*/
+
+/*define instructions trial */
+var instructions = {
+  type:  jsPsychHtmlKeyboardResponse, 
+  stimulus: 
+    `<h1>Instructions</h1>
+    <p>In this experiment, you will be asked to read a series of short scenarios on the screen. Take your time to read the scenario. You will then be asked about your thoughts and feelings regarding the scenarios. Please answer to the best of your ability; there are no right or wrong answers.</p>
+    <p>This experiment should only take approximately 10-15 minutes.</p>
+    <p>Once you have read through all the scenarios and answered the questions, you will be presented with a survey.</p>
+    <p>You must be 18 years old to participate. You may exit at any time without consequences.</p>
+    <p>Press any key to begin.</p>`,
+    
+  post_trial_gap: 2000
+};
+
+  timeline.push(instructions); /*push the instructions trial*/
+
+/*Here we are creating a variable that contains all of the different scenarios for the trial, we need to do this so that we can later use this variable to randomize the scenarios when they are presented to the participants to avoid order effects*/
+var scenarios = [
+  {text: 'During a team meeting, Sarah, who is of Asian descent, shares her thoughts on a project. Afterward, her colleague says, "You speak English so well for someone from China. I thought you would have more of an accent."', id: "microinsult_1"},
+  {text: 'At a conference, John, a Black man, is presenting his research. Afterward, a fellow attendee says, "I’m surprised you’re so articulate. You don’t look like the typical scientist I’d expect."', id: "microinsult_2"},
+  {text: 'At a party, Maria, a Latina woman, is talking about her career achievements. A guest says, "You’re really pretty for someone of your background. Most people from your culture don’t have your kind of style."', id: "microinsult_3"},
+  {text: 'James, who is Latino, mentions feeling left out during a work event. His colleague responds, "I don’t think you’re being left out. Maybe you’re just overthinking it."', id: "microinvalid_1"},
+  {text: 'Sarah, a Black woman, shares a story about a time she felt discriminated against in a store. A friend says, "That wasn’t discrimination, you just misinterpreted the situation."', id: "microinvalid_2"},
+  {text: 'During a meeting, Alex, who is a Muslim man, expresses frustration about being interrupted repeatedly by others. One of his coworkers replies, "I don’t think that happens. You probably just didn’t notice."', id: "microinvalid_3"},
+  {text: 'At lunch, Sarah, a White woman, asks her colleague, "Do you have any plans for the weekend?"', id: "normal_1"},
+  {text: 'John, who is Black, runs into a friend on the street. The friend says, "Hey, how have you been?"', id: "normal_2"},
+  {text: 'Maria, a Latina woman, gives a presentation at work. Afterward, one of her coworkers says, "I liked your presentation today, it was really clear."', id: "normal_3"}
+];
+
+var randomized_scenarios = jsPsych.randomization.shuffle(scenarios); /*here we randomize the scenarios and shuffle them*/
+
+/*Now we have to create our likert scale before we use the jsPsychSurveyLikert plugin*/
+
+var likert_scale = [
+  "Strongly disagree",
+  "Disagree",
+  "Neutral",
+  "Agree",
+  "Strongly Agree"
+];
+
+/*Now we are going to create a function for the scenarios that includes the likert questions so that we can shuffle the scenarios with the questions alongside it*/
+
+randomized_scenarios.forEach(function(scenario) {
+  
+  var trial_1 = {
+    type: jsPsychSurveyLikert,
+    preamble: `<p>${scenario.text}</p>`, /*this will present the randomized_scenarios to the participants at the top of the screen followed by likert questions at the bottom*/
+    questions: [
+      {prompt: "The behavior depicted in the vignette was highly offensive", labels: likert_scale, required: true},
+      {prompt: "The person meant to behave in a racially insensitive manner", labels: likert_scale, required: true},
+      {prompt: "I would step in and say something to stop the interaction", labels: likert_scale, required: true}
+    ],
+    randomize_question_order: false,  /*We want the question order to stay the same*/
+    scale_width: 600
+  };
+
+
+timeline.push(trial_1); /*push this trial to the timeline*/
+});
+
+/*Now we create the demographic survey simply using the jsPsychSurveyMultiChoice plugin, for each question we add the prompt, then name each question so we can collect the data, define the options for each multi-choice question and finally set required as true so participants answer all questions*/
+var demographics = {
+  type: jsPsychSurveyMultiChoice,
+  questions: [
+    {prompt: "What is your age?",
+     name: 'age',
+     options: ['Under 18', '18-24', '25-34', '35-44', '45-54', '55-64', '65 or older'],
+     required: true
+    }, 
+    {prompt: "What is your gender",
+     name: 'gender',
+     options: ['Male', 'Female', 'Non-binary', 'prefer not to say'],
+     required: true
+    }, 
+    {prompt: "What is your racial/ethnic background?",
+    name: 'race',
+    options: ['White', 'Black or African American', 'Hispanic or Latino/a', 'South Asian', 'East Asian', 
+                'Native American or Alaska Native', 'Middle Eastern or North African', 
+                'Pacific Islander', 'Other'],
+     required: true
+    }, 
+    {prompt: "Where did you primarily grow up?",
+     name: 'developmental_enviro', 
+     options: ['A predominantly multicultural society', 'A predominantly homogenous society', 'other'],
+     required: true
+    }, 
+    {prompt: "Where do you currently live?",
+     name: 'current_location', 
+     options: ['A predominantly multicultural society', 'A predominantly homogenous society', 'other'],
+     required: true
+    }, 
+    {prompt: "What is the highest level of education you have completed?",
+     name: 'education', 
+     options: ['less than high school', 'High school diploma or equivalent', 'Some college, no degree', 'Bachelors degree', 'Masters degree', 'Doctoral or professional degree'],
+     required: true
+    }, 
+    {prompt: "How would you describe your political beliefs?",
+     name: 'political_beliefs', 
+     options: ['Very conservative', 'Conservative', 'Moderate', 'Liberal', 'Very liberal', 'Prefer not to say'],
+     required: true
+    }, 
+    {prompt: "Have you personally experienced racial or ethnic discrimination?",
+     name: 'experience', 
+     options: ['Yes, frequently', 'Yes, sometimes', 'No, but I have witnessed it happen to others', 'No'],
+     required: true
+    }, 
+      {prompt: "How often do you discuss topics related to race and discrimination?",
+     name: 'exposure', 
+     options: ['Never', 'Rarely', 'Sometimes', 'Often', 'Very often'],
+     required: true
+    }, 
+    
+  ],
+};
+
+
+timeline.push(demographics); /*push this trial to the timeline*/
+
+/*Now we just put an end screen to let them know they have completed the experiment*/ 
+var theend = {
+  type:  jsPsychHtmlKeyboardResponse, 
+  stimulus: 
+    `<h1>The End</h1>
+    <p>Thankyou for completing the experiment, we appreciate your time and effort.</p>
+    <p>Press any key to finish the experiment.</p>`,
+};
+
+/* Run the experiment */
+jsPsych.run(timeline)
+
+  </script>
+  </html>
