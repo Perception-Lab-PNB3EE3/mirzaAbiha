@@ -23,6 +23,10 @@ var jsPsych = initJsPsych({
 /* create timeline */
 var timeline = [];
 
+var jsPsych = initJsPsych({
+    show_progress_bar: true
+});
+
 /* define welcome message trial using the html keyboard response plugin*/
 var welcome = {
   type: jsPsychHtmlKeyboardResponse,
@@ -65,10 +69,10 @@ var scenarios = [
   {text: 'At a party, Maria, a Latina woman, is talking about her career achievements. A guest says, "You’re really pretty for someone of your background. Most people from your culture don’t have your kind of style."', id: "microinsult_3"},
   {text: 'James, who is Latino, mentions feeling left out during a work event. His colleague responds, "I don’t think you’re being left out. Maybe you’re just overthinking it."', id: "microinvalid_1"},
   {text: 'Sarah, a Black woman, shares a story about a time she felt discriminated against in a store. A friend says, "That wasn’t discrimination, you just misinterpreted the situation."', id: "microinvalid_2"},
-  {text: 'During a meeting, Alex, who is a Muslim man, expresses frustration about being interrupted repeatedly by others. One of his coworkers replies, "I don’t think that happens. You probably just didn’t notice."', id: "microinvalid_3"},
-  {text: 'At lunch, Sarah, a White woman, asks her colleague, "Do you have any plans for the weekend?"', id: "normal_1"},
-  {text: 'John, who is Black, runs into a friend on the street. The friend says, "Hey, how have you been?"', id: "normal_2"},
-  {text: 'Maria, a Latina woman, gives a presentation at work. Afterward, one of her coworkers says, "I liked your presentation today, it was really clear."', id: "normal_3"}
+  {text: 'During a meeting, Ahmed, who is a Muslim man, expresses frustration about being interrupted repeatedly by others. One of his coworkers replies, "I don’t think you are repeatedly interrupted, it might be in your head."', id: "microinvalid_3"},
+  {text: 'At a neighborhood event, James notices his friend Priya wearing a traditional outfit and says, “That looks amazing! Is this for a special occasion?”', id: "normal_1"},
+  {text: 'During a class discussion on genealogy, Maria mentions, “My grandparents immigrated from Mexico.” Her classmate responds, “That’s cool! My grandparents moved here from Italy.”', id: "normal_2"},
+  {text: 'During lunch, Sarah brings homemade dumplings. Her coworker, Rachel, says, “That smells amazing! Did you grow up eating these?”', id: "normal_3"}
 ];
 
 var randomized_scenarios = jsPsych.randomization.shuffle(scenarios); /*here we randomize the scenarios and shuffle them*/
@@ -91,7 +95,7 @@ randomized_scenarios.forEach(function(scenario) {
     type: jsPsychSurveyLikert,
     preamble: `<p>${scenario.text}</p>`, /*this will present the randomized_scenarios to the participants at the top of the screen followed by likert questions at the bottom*/
     questions: [
-      {prompt: "The behavior depicted in the vignette was highly offensive", labels: likert_scale, required: true},
+      {prompt: "The behavior depicted in the scenario was highly offensive", labels: likert_scale, required: true},
       {prompt: "The person meant to behave in a racially insensitive manner", labels: likert_scale, required: true},
       {prompt: "I would step in and say something to stop the interaction", labels: likert_scale, required: true}
     ],
