@@ -1,0 +1,203 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+#Simulate the data
+```{r}
+#load required packages 
+library(ggplot2)
+library(readr)
+library(rstatix)
+
+#simulate the data
+
+  #first specify the sample sizes 
+ngroups = 2  #so i have two groups- multicultural vs. homogenous and then three within-participant conditions 
+nsubsGroup = 60 #so 60 participants per groups 
+
+sampleSizeRequired = 120 #a total of 120 participants needed
+  
+  #Next define the labels for the background groups and the conditions
+background = c("Multicultural", "Homogenous") #here we are specifying the labels for the background conditions 
+
+nConds = 3 #here i am specifying the number of conditions 
+condLabels = c("Microinsult", "Microinvalid", "Normal") #the labels for the conditions
+
+  #then we are going to create an empty data frame and specify the rows and the columns
+df = data.frame(Participant=rep(0,sampleSizeRequired*nConds), 
+                           Condition=rep("NA", sampleSizeRequired, nConds), #this fills in the condition column with NA 
+                           background=rep("NA", sampleSizeRequired, nConds),#fills in the background column with NA
+                           Likertresponse=rep(0, sampleSizeRequired, nConds), #fills in the likertresponse column with 0
+                           stringAsFactors=TRUE
+                           )
+
+  #here we are specifying the values we want for the participants, so 1-120 but repeat it for each of the three conditions so you     have three rows for participant 1, three for participant 2 etc. 
+df$Participant <- rep(1:sampleSizeRequired, each=nConds)  
+
+  #here we are telling it to repeat the background characters - multicultural and homogenous for half of the 120 participants         becuase we want half of them to be multicultural and half homogenous. Then we want that to repeat again for each of the three       conditions. so that if a participant has 3 rows for each condition, each of those rows will say multicultural 
+df$background <- rep(rep(background, each=sampleSizeRequired/2), each=nConds)
+
+  #finally we need to fill in the condition column using the condition labels but we have to do it so that each participant gets one   #of the conditions so we use the time function
+df$Condition <- rep(condLabels, times=sampleSizeRequired)
+
+  #outcome measures: likert responses. we have to specify what the possible values could be and then replace the 0s in the likert     response column randomly with this function 
+df$Likertresponse = sample(c(1,2,3,4,5), sampleSizeRequired, replace = TRUE)
+
+#assume normality with the simulated data 
+
+```
+
+#Data Summary
+First let's look at our data and inspect it to make sure it is in the proper format. We want the conditions and background to be in numeric format
+```{r}
+#this shows us means, median and sample size, also what type of data each variable is. 
+summary(df)
+
+
+#make our data for background and conditions numeric
+back_num <- as.factor(df$background)
+condition_num <- as.factor(df$Condition)
+
+
+```
+If we want to look at the entire dataset we can also do that. 
+```{r}
+df #shows you the entire dataset
+```
+
+Now we are going to look at the descriptive stats including mean and sd. 
+```{r}
+#we can also look at the descriptive stats for the data, first lets find the mean:
+background_means <- aggregate(Likertresponse ~ back_num, data =  df, FUN = mean) #this gives us the means of the likert responses for the two background conditions
+condition_means <- aggregate(Likertresponse ~ condition_num, data = df, FUN = mean)#this gives the means of the likert responses for the three within-group conditions
+
+#we can also find the sd:
+background_sd <- aggregate(Likertresponse ~ back_num, data =  df, FUN = sd) 
+condition_sd <- aggregate(Likertresponse ~ condition_num, data = df, FUN = sd)
+
+
+
+```
+
+
+#statistical tests: 
+Now we are going to analyze the data and look for significance using ANOVA and t-tests. 
+```{r}
+#we need to run a mixed 2*3 factorial ANOVA as there are both between subject factors and within
+
+anova_results <- anova_test(
+  data = df, 
+  dv = Likertresponse,      # Dependent variable
+  wid = Participant,        # Participant ID 
+  between = background,     # Between-subjects factor
+  within = Condition        # Within-subjects factor
+)
+
+print(anova_results)
+
+
+```
+The sphericity results show that the p<.05 therefore we can reject the null hypothesis meaning that the within subject effect of conditions has equal variances
+
+The condition factor did show significant results. Meaning that participants show a perceived difference between the different conditions: microinsult, microinvalid, and normal interactions. 
+
+#Post-hoc tests
+Now we have to run a post-hoc test to see which of the three conditions significantly differed from each other: 
+```{r}
+post_hoc_results <- pairwise_t_test(
+  df, 
+  Likertresponse ~ Condition,  # Formula: dependent variable ~ factor | subject
+  p.adjust.method = "bonferroni"  # Adjust p-values for multiple comparisons
+)
+
+# Print the results
+print(post_hoc_results)
+
+```
+From these results we see that people rated the microinsults more severely than the normal interactions but there was no difference between microinsults and microinvalidations or microinvalidations and normal interactions. 
+
+
+It is now important to run effect size measurements because we found a significant effect with the condition. We will use cohen's d.
+```{r}
+
+
+# Subset the data for the two conditions you're comparing
+condition1_data <- df$Likertresponse[df$Condition == "Microinsult"]
+condition2_data <- df$Likertresponse[df$Condition == "Normal"]
+
+# Calculate the means for both conditions
+mean_condition1 <- mean(condition1_data)
+mean_condition2 <- mean(condition2_data)
+
+# Calculate the standard deviations for both conditions
+sd_condition1 <- sd(condition1_data)
+sd_condition2 <- sd(condition2_data)
+
+# Calculate the pooled standard deviation
+pooled_sd <- sqrt((sd_condition1^2 + sd_condition2^2) / 2)
+
+# Calculate Cohen's d
+cohen_d <- (mean_condition1 - mean_condition2) / pooled_sd
+
+# Print the result
+print(cohen_d)
+
+```
+From this we get an effect size of .349 which is a between a small (.2) and medium effect (.5) meaning the difference between the microinsult and normal conditions was there but it isn't very large.
+
+#Visualize the data 
+Now we can visualize the data:
+```{r}
+
+#this plot shows interaction effects, we did not see any significant effects for interaction 
+ggplot(df, aes(x = factor(condition_num), y = Likertresponse, color = factor(back_num), group = factor(back_num))) +
+  stat_summary(fun = mean, geom = "point", size = 3) +  # Mean points
+  stat_summary(fun = mean, geom = "line") +  # Line connecting means
+  labs(title = "Interaction Effect of Background and Condition on Likert Responses",
+       x = "Condition",
+       y = "Mean Likert Response",
+       color = "Background") +
+  theme_minimal()
+
+```
+
+
+```{r}
+#this shows boxplots for the distributions of each condiiton 
+ggplot(df, aes(x = interaction(condition_num, back_num), y = Likertresponse, fill = back_num)) +
+  geom_boxplot() +
+  labs(x = "Condition", y = "Likert Response", fill = "Background") +
+  scale_x_discrete(labels = c("Microinsult", "Microinvalid", "Normal",
+                             "Microinsult", "Microinvalid", "Normal")) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +  # Rotate x-axis labels
+  ggtitle("Boxplot of Likert Responses by Condition and Background")
+
+```
+```{r}
+#this is a double bar graph showing the means for the conditions, separated by background
+ggplot(df, aes(x = factor(condition_num), y = Likertresponse, fill = factor(back_num))) +
+  stat_summary(fun = mean, geom = "bar", position = "dodge") +
+  stat_summary(fun.data = mean_cl_boot, geom = "errorbar", 
+               position = position_dodge(width = 0.9), width = 0.2) +
+  labs(title = "Mean Likert Responses by Condition & Background",
+       x = "Condition",
+       y = "Mean Likert Response",
+       fill = "Background") +
+  scale_fill_brewer(palette = "Set1") +  # Color scheme
+  theme_minimal()
+```
+```{r}
+#this scatterplot just shows all the individual responses and the means for each condition as well separated by background and condition
+ggplot(df, aes(x = factor(condition_num), y = Likertresponse, color = factor(back_num))) +
+  geom_jitter(width = 0.2, alpha = 0.5) +  # Add some jitter to avoid overplotting
+  stat_summary(fun = mean, geom = "point", size = 3, shape = 17) +  # Show means
+  stat_smooth(method = "lm", aes(group = back_num), se = FALSE) +  # Linear trend lines
+  labs(title = "Scatter Plot of Likert Responses by Condition & Background",
+       x = "Condition",
+       y = "Likert Response",
+       color = "Background") +
+  theme_minimal()
+
+```
+

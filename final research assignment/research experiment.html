@@ -13,10 +13,10 @@
 /*in the head we have coded which plugins will be used for the experiment in javascript*/
 
 var jsPsych = initJsPsych({
-          on_finish: function() {
-                jsPsych.data.get().localSave('csv','mydata.csv');
-              }
-            });
+  on_finish: function() {
+    jsPsych.data.get().localSave('csv', 'mydata.csv');
+    }
+});
             
 /*Here we have initialized or started up jspsych and created a csv file to show all the data that will be collected in the experiment*/
 
@@ -101,8 +101,7 @@ randomized_scenarios.forEach(function(scenario) {
     ],
     randomize_question_order: false,  /*We want the question order to stay the same*/
     scale_width: 600
-  };
-
+    };
 
 timeline.push(trial_1); /*push this trial to the timeline*/
 });
@@ -113,7 +112,7 @@ var demographics = {
   questions: [
     {prompt: "What is your age?",
      name: 'age',
-     options: ['Under 18', '18-24', '25-34', '35-44', '45-54', '55-64', '65 or older'],
+     options: ['18-24', '25-34', '35-44', '45-54', '55-64', '65 or older'],
      required: true
     }, 
     {prompt: "What is your gender",
@@ -157,13 +156,13 @@ var demographics = {
      name: 'exposure', 
      options: ['Never', 'Rarely', 'Sometimes', 'Often', 'Very often'],
      required: true
-    }, 
-    
+    }
   ],
-};
+ };
 
 
 timeline.push(demographics); /*push this trial to the timeline*/
+
 
 /*Now we just put an end screen to let them know they have completed the experiment*/ 
 var theend = {
@@ -173,6 +172,9 @@ var theend = {
     <p>Thankyou for completing the experiment, we appreciate your time and effort.</p>
     <p>Press any key to finish the experiment.</p>`,
 };
+
+timeline.push(theend);
+
 
 /* Run the experiment */
 jsPsych.run(timeline)
